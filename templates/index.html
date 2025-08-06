@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shared Folder Explorer</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+        .file-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .file-item {
+            width: 120px;
+            text-align: center;
+        }
+        .file-item img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h2>📁 {{ current_path }}</h2>
+
+    <h3>📂 Klasörler</h3>
+    <ul>
+        {% for folder in folders %}
+            <li>
+                <a href="/?path={{ current_path }}/{{ folder }}">{{ folder }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>📄 Dosyalar</h3>
+    <div class="file-container">
+        {% for file in files %}
+            <div class="file-item">
+                {% if file in thumbnails %}
+                    <a href="/download?path={{ current_path }}/{{ file }}">
+                        <img src="{{ thumbnails[file] }}" alt="{{ file }}">
+                    </a>
+                {% else %}
+                    <a href="/download?path={{ current_path }}/{{ file }}">{{ file }}</a>
+                {% endif %}
+                <div>{{ file }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
